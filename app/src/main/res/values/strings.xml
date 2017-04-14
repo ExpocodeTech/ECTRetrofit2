@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ECTRetrofit2</string>
+    <string name="ex_post_title">Titulo de Post</string>
 </resources>
