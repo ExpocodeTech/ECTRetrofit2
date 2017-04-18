@@ -21,11 +21,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity implements PostRVAdapter.PostRVAdapterListener,
-        Callback<List<Post>> {
+public class MainActivity extends AppCompatActivity
+        implements PostRVAdapter.PostRVAdapterListener, Callback<List<Post>> {
     private static final String TAG = MainActivity.class.getName();
 
-    private static final String BASE_URL = "http://jsonplaceholder.typicode.com/";
+    private static final String BASE_URL = "https://jsonplaceholder.typicode.com";
+
     private PostRVAdapter mPostRVAdapter;
     private ArrayList<Post> mPosts;
 
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements PostRVAdapter.Pos
 
         //loadFakePosts();
         loadPosts();
+
     }
 
     public void loadFakePosts() {
@@ -58,21 +60,22 @@ public class MainActivity extends AppCompatActivity implements PostRVAdapter.Pos
         mPostRVAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void OnItemClicked(Post aPost) {
+        Toast.makeText(this, aPost.getTitle(), Toast.LENGTH_SHORT).show();
+    }
+
     public void loadPosts() {
         Gson gson = new GsonBuilder().setLenient().create();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
         JsonPlaceHolderAPI jsonPlaceHolderAPI = retrofit.create(JsonPlaceHolderAPI.class);
-        Call<List<Post>> call = jsonPlaceHolderAPI.allPosts();
+        Call<List<Post>> call = jsonPlaceHolderAPI.getAllPosts();
         call.enqueue(this);
-    }
-
-    @Override
-    public void OnItemClicked(Post aPost) {
-        Toast.makeText(this, aPost.getTitle(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -93,3 +96,41 @@ public class MainActivity extends AppCompatActivity implements PostRVAdapter.Pos
         t.printStackTrace();
     }
 }
+
+
+
+
+
+
+
+
+
+  /*public void loadPosts() {
+        Gson gson = new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        JsonPlaceHolderAPI jsonPlaceHolderAPI = retrofit.create(JsonPlaceHolderAPI.class);
+        Call<List<Post>> call = jsonPlaceHolderAPI.allPosts();
+        call.enqueue(this);
+    }*/
+
+    /*@Override
+    public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+        if(response.isSuccessful()) {
+            List<Post> postsList = response.body();
+            for (Post post : postsList) {
+                mPosts.add(post);
+            }
+            mPostRVAdapter.notifyDataSetChanged();
+        } else {
+            System.out.println(response.errorBody());
+        }
+    }
+
+    @Override
+    public void onFailure(Call<List<Post>> call, Throwable t) {
+        t.printStackTrace();
+    }*/
