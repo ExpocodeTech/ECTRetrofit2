@@ -7,7 +7,7 @@ package com.expocodetech.ectretrofit2.model;
 public class Post {
 
     private String userId;
-    private String Id;
+    private String id;
     private String title;
     private String body;
 
@@ -20,11 +20,11 @@ public class Post {
     }
 
     public String getId() {
-        return Id;
+        return id;
     }
 
     public void setId(String id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getTitle() {
